@@ -55,23 +55,46 @@ namespace KodiMax
 
         static void Registro()
         {
-            string nombres, apellidos, email, usuario, pass;
-            DateTime nacimiento;
-            Console.WriteLine("A continuacion debera de proporcionar algunos datos para realizar su registro!");
-            Console.Write("\n Nombres: ");
-            nombres = Console.ReadLine();
-            Console.Write("\n Apellidos: ");
-            apellidos = Console.ReadLine();
-            Console.Write("\n Correo: ");
-            email = Console.ReadLine();
-            Console.WriteLine("\n A continuacion agregue su fecha de nacimiento en este formato: '9/7/1999'");
-            Console.Write("\n Fecha de nacimiento: ");
-            nacimiento = DateTime.Parse(Console.ReadLine());
-            Console.Write("\n Usuario: ");
-            usuario = Console.ReadLine();
-            Console.Write("\n Contraseña: ");
-            pass = Console.ReadLine();
-            UsuariosReg.Add(new Clases.Usuarios(nombres, apellidos, email, nacimiento, usuario, pass));
+            string nombres, apellidos, email, usuario, pass, fecha;
+            Console.Clear();
+            try
+            {
+                DateTime nacimiento;
+                Console.WriteLine("A continuacion debera de proporcionar algunos datos para realizar su registro!");
+                Console.Write("\n Nombres: ");
+                nombres = Console.ReadLine();
+                Console.Write("\n Apellidos: ");
+                apellidos = Console.ReadLine();
+                Console.Write("\n Correo: ");
+                email = Console.ReadLine();
+                Console.WriteLine("\n A continuacion agregue su fecha de nacimiento en este formato: '9/7/1999'");
+                Console.Write("\n Fecha de nacimiento: ");
+                fecha = Console.ReadLine();
+                nacimiento = DateTime.Parse(fecha);
+                Console.Write("\n Usuario: ");
+                usuario = Console.ReadLine();
+                Console.Write("\n Contraseña: ");
+                pass = Console.ReadLine();
+                if (string.IsNullOrEmpty(nombres) && string.IsNullOrEmpty(apellidos) && string.IsNullOrEmpty(email)
+                    && string.IsNullOrEmpty(usuario) && string.IsNullOrEmpty(pass) && string.IsNullOrEmpty(fecha))
+                {
+                    Console.WriteLine("\n Lo sentimos, no ingresaste todos los datos!");
+                    Console.ReadKey();
+                    Registro();
+                }
+                else
+                {
+                    UsuariosReg.Add(new Clases.Usuarios(nombres, apellidos, email, nacimiento, usuario, pass));
+                    Console.WriteLine("\n Usuario registrado exitosamente, presione una tecla para continuar...");
+                    Console.ReadKey();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("\n Error en el formato de la fecha: " + ex);
+                Console.ReadKey();
+                Registro();
+            }
         }
 
         static void Menu_Principal()
