@@ -13,17 +13,19 @@ namespace KodiMax.Clases
         private string dui;
         private string nit;
         private string cargo;
-        private bool contratado = false;
+        private bool contratado;
 
-        public Empleados() { }
+        public Empleados():base() { } 
 
-        public Empleados(int id, string telefono, string dui, string nit, string cargo)
+        public Empleados(int id, string nombres, string apellidos, string email, DateTime fechaNacimiento, string nombreUsuario, 
+            string password, string telefono, string dui, string nit, string cargo):base(nombres, apellidos, email, fechaNacimiento, nombreUsuario, password)
         {
             this.Id = id;
             this.Telefono = telefono;
             this.Dui = dui;
             this.Nit = nit;
             this.Cargo = cargo;
+            this.Contratado = true;
         }
 
         public int Id { get => id; set => id = value; }
@@ -31,18 +33,22 @@ namespace KodiMax.Clases
         public string Dui { get => dui; set => dui = value; }
         public string Nit { get => nit; set => nit = value; }
         public string Cargo { get => cargo; set => cargo = value; }
+        public bool Contratado { get => contratado; set => contratado = value; }
 
-        public void Contratar()
+        public override bool State()
         {
-            Random random = new Random();
-            if (random.Next(0, 1) == 1)
-            {
-                contratado = true;
-            }
-            else
-            {
-                contratado = false;
-            }
+            return this.Contratado;
+        }
+
+        public override int ShowData()
+        {
+            Console.WriteLine("\n Nombre: {0} {1}", this.Nombres, this.Apellidos);
+            Console.WriteLine("\n Dui: {0}", this.Dui);
+            Console.WriteLine("\n Nit: {0}", this.Nit);
+            Console.WriteLine("\n Telefono: {0}", this.Telefono);
+            Console.WriteLine("\n Cargo: {0}", this.Cargo);
+            Console.WriteLine("\n ID: {0}", this.Id);
+            return 0;
         }
     }
 }
