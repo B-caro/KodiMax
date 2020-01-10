@@ -22,21 +22,34 @@ namespace KodiMax
 
         static void Login()
         {
-            //string user, pass;
-            //Console.WriteLine("A continuacion ingrese sus datos de inicio de sesion!");
-            //Console.Write("\n Usuario: ");
-            //user = Console.ReadLine();
-            //Console.Write("\n Contraseña: ");
-            //pass = Console.ReadLine();
+            string user, pass;
+            Console.WriteLine("A continuacion ingrese sus datos de inicio de sesion!");
+            Console.Write("\n Usuario: ");
+            user = Console.ReadLine();
+            Console.Write("\n Contraseña: ");
+            pass = Console.ReadLine();
             for (int i = 0; i < UsuariosReg.Count; i++)
             {
-                Clases.Usuarios user = (Clases.Usuarios)UsuariosReg[i];
-                Console.WriteLine(user.Nombres);
-                Console.WriteLine(user.Apellidos);
-                Console.WriteLine(user.Email);
-                Console.WriteLine(user.FechaNacimiento);
-                Console.WriteLine(user.NombreUsuario);
-                Console.WriteLine(user.Password);
+                Clases.Usuarios us = (Clases.Usuarios)UsuariosReg[i];
+                if (us.NombreUsuario != user)
+                {
+                    Console.WriteLine("No existen registros con el nombre de usuario '{0}'", user);
+                    Console.ReadKey();
+                    Login();
+                }
+                else if(us.NombreUsuario == user)
+                {
+                    if (us.Password == pass)
+                    {
+                        Menu_cartelera();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Contraseña incorrecta!");
+                        Console.ReadKey();
+                        Login();
+                    }
+                }
             }
         }
 
@@ -51,7 +64,7 @@ namespace KodiMax
             apellidos = Console.ReadLine();
             Console.Write("\n Correo: ");
             email = Console.ReadLine();
-            Console.WriteLine("\n A continuacion agregue su fecha de nacimiento ene ste formato: '9/7/1999'");
+            Console.WriteLine("\n A continuacion agregue su fecha de nacimiento en este formato: '9/7/1999'");
             Console.Write("\n Fecha de nacimiento: ");
             nacimiento = DateTime.Parse(Console.ReadLine());
             Console.Write("\n Usuario: ");
