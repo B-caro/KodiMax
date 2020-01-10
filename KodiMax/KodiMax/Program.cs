@@ -9,6 +9,7 @@ namespace KodiMax
 {
     class Program
     {
+        static int pos = 0;
         static ArrayList UsuariosReg = new ArrayList();
         static ArrayList EmpleadosReg = new ArrayList();
         static ArrayList Peliculas = new ArrayList();
@@ -23,6 +24,7 @@ namespace KodiMax
         static void Login()
         {
             string user, pass;
+            Console.Clear();
             Console.WriteLine("A continuacion ingrese sus datos de inicio de sesion!");
             Console.Write("\n Usuario: ");
             user = Console.ReadLine();
@@ -41,6 +43,7 @@ namespace KodiMax
                 {
                     if (us.Password == pass)
                     {
+                        pos = i;
                         Menu_cartelera();
                     }
                     else
@@ -161,10 +164,10 @@ namespace KodiMax
                     Console.WriteLine("\t    ║         Salas       Peliculas disponibles              ║");
                     Console.WriteLine("\t    ╠════════════════════════════════════════════════════════╣");
                     Console.WriteLine("\t    ║                                                        ║");
-                    Console.WriteLine("\t    ║           1      El Robo Perfecto                      ║");
-                    Console.WriteLine("\t    ║           2      Operación Red Sparrow                 ║");
-                    Console.WriteLine("\t    ║           3      3 Anuncios por un crimen              ║");
-                    Console.WriteLine("\t    ║           4      Pantera Negra                         ║");
+                    Console.WriteLine("\t    ║           1      Trabaja con nosotros!                 ║");
+                    Console.WriteLine("\t    ║           2      Comprar tus entradas aca!             ║");
+                    Console.WriteLine("\t    ║           3      Cartelera                             ║");
+                    Console.WriteLine("\t    ║           4      KodiAlimentos                         ║");
                     Console.WriteLine("\t    ║                                                        ║");
                     Console.WriteLine("\t    ╠════════════════════════════════════════════════════════╣");
                     Console.WriteLine("\t    ║                    Otras opciones                      ║");
@@ -178,7 +181,7 @@ namespace KodiMax
                     switch (op)
                     {
                         case 1:
-
+                            NuevoEmpleado();
                             break;
                         case 2:
 
@@ -210,6 +213,23 @@ namespace KodiMax
                     Menu_cartelera();
                 }
             }
+        }
+
+        static void NuevoEmpleado()
+        {
+            string Dui, Nit, Telefono;
+            Clases.Usuarios us = (Clases.Usuarios)UsuariosReg[pos];
+            Console.Clear();
+            Console.WriteLine("Bienvenido a la ventana de registro {0}, sera un honor trabajar contigo! \n " +
+                " A continuacion ingresa los datos solicitados (DUI, NIT y numero de telefono) para aplicar" +
+                "a una plaza con nosotros! \n", us.Nombres);
+            Console.Write("DUI: ");
+            Dui = Console.ReadLine();
+            Console.Write("NIT: ");
+            Nit = Console.ReadLine();
+            Console.Write("Telefono: ");
+            Telefono = Console.ReadLine();
+
         }
     }
 }
