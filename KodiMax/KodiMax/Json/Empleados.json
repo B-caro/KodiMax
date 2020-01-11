@@ -1,15 +1,1 @@
-[{
-    "Nombres": "Jonathan",
-    "Apellidos": "Bucaro",
-    "Email": "",
-    "FechaNacimiento": "0099-07-13T00:00:00",
-    "NombreUsuario": "1",
-    "Password": "1"
-}, {
-    "Nombres": "Jonathan",
-    "Apellidos": "Bucaro",
-    "Email": "",
-    "FechaNacimiento": "0099-07-13T00:00:00",
-    "NombreUsuario": "1",
-    "Password": "1"
-}]
+[{"Id":0,"Telefono":"7777-7777","Dui":"123456789","Nit":"987654321","Cargo":"Cajero de Tickets","Contratado":true,"Nombres":"Eduardo","Apellidos":"Escobar","Email":"Eduardito@hotmail.com","FechaNacimiento":"2001-08-25T00:00:00","NombreUsuario":"Eduardo","Password":"1234"}]

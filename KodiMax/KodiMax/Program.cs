@@ -128,8 +128,10 @@ namespace KodiMax
                 else
                 {
                     Clases.Usuarios User = new Clases.Usuarios(nombres, apellidos, email, nacimiento, usuario, pass);
-                    UsuariosReg.Add(User);
+                    UsuariosReg.Clear();                    
                     EscribirJSon(_pathUsuarios, User);
+                    string JsonFileUsuarios = File.ReadAllText(_pathUsuarios);
+                    UsuariosReg = JsonConvert.DeserializeObject<ArrayList>(JsonFileUsuarios);
                     Console.WriteLine("\n Usuario registrado exitosamente, presione una tecla para continuar...");
                     Console.ReadKey();
                 }
@@ -224,7 +226,12 @@ namespace KodiMax
                     switch (op)
                     {
                         case 1:
-                            Clases.Usuarios temp = (Clases.Usuarios)UsuariosReg[pos];
+                            string parse = "";
+                            Clases.Usuarios temp = new Clases.Usuarios();
+                            parse = UsuariosReg[pos].ToString();
+                            temp = JsonConvert.DeserializeObject<Clases.Usuarios>(parse);
+                            Console.WriteLine(temp.State());
+                            Console.ReadKey();
                             if (temp.State())
                             {
                                 Console.Clear();
@@ -361,10 +368,14 @@ namespace KodiMax
 
         static void NuevoEmpleado()
         {
-            string Dui, Nit, Telefono, Cargo;
+            string Dui, Nit, Telefono, Cargo, parse = "";
             int temp = 0;
             Random random = new Random();
-            Clases.Usuarios us = (Clases.Usuarios)UsuariosReg[pos];
+
+            Clases.Usuarios us = new Clases.Usuarios();
+            parse = UsuariosReg[pos].ToString();
+            us = JsonConvert.DeserializeObject<Clases.Usuarios>(parse);
+            
             Console.Clear();
             Console.WriteLine("Bienvenido a la ventana de registro {0}, sera un honor trabajar contigo! \n " +
                 " A continuacion ingresa los datos solicitados (DUI, NIT y numero de telefono) para aplicar" +
