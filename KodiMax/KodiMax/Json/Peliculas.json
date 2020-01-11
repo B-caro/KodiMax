@@ -1,0 +1,13 @@
+[{
+    "Id": 2,
+    "Nombre": "Geminis",
+    "Duracion": "200",
+    "Actores": ["Will Smith"],
+    "Clasificacion": "C"
+}, {
+    "Id": 3,
+    "Nombre": "Carlos",
+    "Duracion": "120",
+    "Actores": [],
+    "Clasificacion": "A"
+}]
