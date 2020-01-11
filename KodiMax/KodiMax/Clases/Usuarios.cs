@@ -36,5 +36,15 @@ namespace KodiMax.Clases
         public DateTime FechaNacimiento { get => fechaNacimiento; set => fechaNacimiento = value; }
         public string NombreUsuario { get => nombreUsuario; set => nombreUsuario = value; }
         public string Password { get => password; set => password = value; }
+
+        public virtual bool State()
+        {
+            return false;
+        }
+
+        public virtual int ShowData()
+        {
+            return 0;
+        }
     }
 }
