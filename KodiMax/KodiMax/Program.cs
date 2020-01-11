@@ -320,7 +320,7 @@ namespace KodiMax
                             MostrarJSon("Tickets");
                             break;
                         case 7:
-                            MostrarJSon(_pathEmpleados);
+                            MostrarJSon(_pathUsuarios);
                             break;
                         case 8:
                             Menu_cartelera();
@@ -554,10 +554,15 @@ namespace KodiMax
 
         public static void CargarJson()
         {
-            Peliculas = JsonConvert.DeserializeObject<ArrayList>(_pathPeliculas);            
-            KodiAlimentos = JsonConvert.DeserializeObject<ArrayList>(_pathGolosinas);
-            EmpleadosReg = JsonConvert.DeserializeObject<ArrayList>(_pathEmpleados);
-            UsuariosReg = JsonConvert.DeserializeObject<ArrayList>(_pathUsuarios);
+            string JsonFilePeliculas = File.ReadAllText(_pathPeliculas);
+            string JsonFileGolosinas = File.ReadAllText(_pathGolosinas);
+            string JsonFileEmpleados = File.ReadAllText(_pathEmpleados);
+            string JsonFileUsuarios = File.ReadAllText(_pathUsuarios);
+
+            Peliculas = JsonConvert.DeserializeObject<ArrayList>(JsonFilePeliculas);
+            KodiAlimentos = JsonConvert.DeserializeObject<ArrayList>(JsonFileGolosinas);
+            EmpleadosReg = JsonConvert.DeserializeObject<ArrayList>(JsonFileEmpleados);
+            UsuariosReg = JsonConvert.DeserializeObject<ArrayList>(JsonFileUsuarios);
         }
 
         static void Pruebas()
