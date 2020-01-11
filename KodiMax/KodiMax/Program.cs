@@ -21,9 +21,9 @@ namespace KodiMax
         static ArrayList KodiAlimentos = new ArrayList();
 
         private static readonly string _pathPeliculas = @"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Peliculas.json";
-        private static readonly string _pathGolosinas = @"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Peliculas.json";
-        private static readonly string _pathEmpleados = @"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Peliculas.json";
-        private static readonly string _pathUsuarios = @"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Peliculas.json";
+        private static readonly string _pathGolosinas = @"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Golsinas.json";
+        private static readonly string _pathEmpleados = @"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Empleados.json";
+        private static readonly string _pathUsuarios = @"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Usuarios.json";
 
         static void Main(string[] args)
         {
@@ -67,7 +67,11 @@ namespace KodiMax
                 for (int i = 0; i < UsuariosReg.Count;)
                 {
                     string parse = "";
-                    Clases.Usuarios us = (Clases.Usuarios)UsuariosReg[i];
+
+                    Clases.Usuarios us = new Clases.Usuarios();
+                    parse = UsuariosReg[i].ToString();
+                    us = JsonConvert.DeserializeObject<Clases.Usuarios>(parse);
+
                     if (us.NombreUsuario == user)
                     {
                         if (us.Password == pass)
@@ -123,9 +127,9 @@ namespace KodiMax
                 }
                 else
                 {
-                    Clases.Usuarios prb = new Clases.Usuarios(nombres, apellidos, email, nacimiento, usuario, pass);
-                    UsuariosReg.Add(prb);
-                    UsuariosJson(prb);
+                    Clases.Usuarios User = new Clases.Usuarios(nombres, apellidos, email, nacimiento, usuario, pass);
+                    UsuariosReg.Add(User);
+                    EscribirJSon(_pathUsuarios, User);
                     Console.WriteLine("\n Usuario registrado exitosamente, presione una tecla para continuar...");
                     Console.ReadKey();
                 }
@@ -236,10 +240,10 @@ namespace KodiMax
 
                             break;
                         case 3:
-                            MostrarPeliculas();
+                            MostrarJSon(_pathPeliculas);
                             break;
                         case 4:
-                            MostrarGolosinas();
+                            MostrarJSon(_pathGolosinas);
                             break;
                         case 5:
                             Menu_Principal();
@@ -285,11 +289,12 @@ namespace KodiMax
                     Console.WriteLine("\t    ║           4      Mostrar Alimentos/Bebidas             ║");
                     Console.WriteLine("\t    ║           5      Mostrar Empleados                     ║");
                     Console.WriteLine("\t    ║           6      Mostrar Tickets                       ║");
+                    Console.WriteLine("\t    ║           7      Mostrar Usuarios                      ║");
                     Console.WriteLine("\t    ║                                                        ║");
                     Console.WriteLine("\t    ╠════════════════════════════════════════════════════════╣");
                     Console.WriteLine("\t    ║                    Otras opciones                      ║");
                     Console.WriteLine("\t    ║                                                        ║");
-                    Console.WriteLine("\t    ║           7      Salir                                 ║");
+                    Console.WriteLine("\t    ║           8      Regresar al menu anterior             ║");
                     Console.WriteLine("\t    ╚════════════════════════════════════════════════════════╝");
                     Console.WriteLine("\n");
                     Console.Write("Selecciona una opcion: ");
@@ -303,19 +308,22 @@ namespace KodiMax
                             AgregarGolosinas();
                             break;
                         case 3:
-                            MostrarPeliculas();
+                            MostrarJSon(_pathPeliculas);
                             break;
                         case 4:
-                            MostrarGolosinas();
+                            MostrarJSon(_pathGolosinas);
                             break;
                         case 5:
-                            MostrarEmpleados();
+                            MostrarJSon(_pathEmpleados);
                             break;
                         case 6:
-                            MostrarTickets();
+                            MostrarJSon("Tickets");
                             break;
                         case 7:
-
+                            MostrarJSon(_pathEmpleados);
+                            break;
+                        case 8:
+                            Menu_cartelera();
                             break;
                         default:
                             Console.WriteLine("\t ERROR: NO DISPONEMOS DE MAS OPCIONES");
@@ -334,14 +342,21 @@ namespace KodiMax
             }
         }
 
-        private static void MostrarTickets()
+        private static void MostrarJSon(string path)
         {
-            throw new NotImplementedException();
-        }
+            string JsonFile = File.ReadAllText(path);
+            DataTable dt = (DataTable)JsonConvert.DeserializeObject(JsonFile, typeof(DataTable));
 
-        private static void MostrarEmpleados()
-        {
-            throw new NotImplementedException();
+            for (int j = 0; j < dt.Rows.Count; j++)
+            {
+                Console.WriteLine("═══════════════════════════════════════════════════");
+                for (int i = 0; i < dt.Columns.Count; i++)
+                {
+                    Console.Write(dt.Columns[i].ColumnName + ":                   ");
+                    Console.WriteLine(dt.Rows[j].ItemArray[i]);
+                }
+                Console.WriteLine("═══════════════════════════════════════════════════");
+            }
         }
 
         static void NuevoEmpleado()
@@ -377,7 +392,7 @@ namespace KodiMax
                 Clases.Empleados Emp = new Clases.Empleados(id, us.Nombres, us.Apellidos, us.Email, us.FechaNacimiento, us.NombreUsuario,
                 us.Password, Telefono, Dui, Nit, Cargo);
                 UsuariosReg.Add(Emp);
-                EmpleadosJson(Emp);
+                EscribirJSon(_pathEmpleados, Emp);
                 Console.WriteLine("Felicidades fuiste contratado! Ahora formas parte de nuestro grandioso equipo!!");
             }
             else
@@ -424,7 +439,7 @@ namespace KodiMax
 
             Clases.Peliculas Peli = new Clases.Peliculas(id, nombre, duracion, actores, clasificacion);
 
-            PeliculasJson(Peli);
+            EscribirJSon(_pathPeliculas, Peli);
             Console.WriteLine("Pelicula almacenada exitosamente!");
         }
 
@@ -448,35 +463,13 @@ namespace KodiMax
 
             Clases.Golosinas Al = new Clases.Golosinas(nombre, descripcion, precio, cant);
 
-            GolosinasJson(Al);
+            EscribirJSon(_pathGolosinas, Al);
             Console.WriteLine("Alimento/Bebida almacenada exitosamente!");
         }
 
-
-
-        static void GuardarJson()
+        static void EscribirJSon(string path, Clases.Golosinas Obj)
         {
-            Clases.Usuarios prb = new Clases.Usuarios("Jonathan", "Bucaro", "", new DateTime(99, 7, 13), "1", "1");
-            string json = JsonConvert.SerializeObject(prb);
-            string path = @"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Empleados.json";
-            if (count == 0)
-            {
-                File.WriteAllText(path, "[" + json + "]");
-                count++;
-            }
-            else
-            {
-                string text = File.ReadAllText(path);
-                text = text.Remove(text.Length - 1);
-                string temp = text + "," + json + "]";
-                File.WriteAllText(path, text + "," + json + "]");
-            }
-        }
-
-        static void GolosinasJson(Clases.Golosinas Gl)
-        {
-            string json = JsonConvert.SerializeObject(Gl);
-            string path = @"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Golsinas.json";
+            string json = JsonConvert.SerializeObject(Obj);
             string text = File.ReadAllText(path);
             if (text == "")
             {
@@ -491,10 +484,9 @@ namespace KodiMax
             }
         }
 
-        static void EmpleadosJson(Clases.Empleados Em)
+        static void EscribirJSon(string path, Clases.Usuarios Obj)
         {
-            string json = JsonConvert.SerializeObject(Em);
-            string path = @"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Empleados.json";
+            string json = JsonConvert.SerializeObject(Obj);
             string text = File.ReadAllText(path);
             if (text == "")
             {
@@ -509,28 +501,9 @@ namespace KodiMax
             }
         }
 
-        static void PeliculasJson(Clases.Peliculas Pl)
+        static void EscribirJSon(string path, Clases.Empleados Obj)
         {
-            string json = JsonConvert.SerializeObject(Pl);
-            string path = @"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Peliculas.json";
-            string text = File.ReadAllText(path);
-            if (text == "")
-            {
-                File.WriteAllText(path, "[" + json + "]");
-                count++;
-            }
-            else
-            {                
-                text = text.Remove(text.Length - 1);
-                string temp = text + "," + json + "]";
-                File.WriteAllText(path, text + "," + json + "]");
-            }
-        }
-
-        static void UsuariosJson(Clases.Usuarios Us)
-        {
-            string json = JsonConvert.SerializeObject(Us);
-            string path = @"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Usuarios.json";
+            string json = JsonConvert.SerializeObject(Obj);
             string text = File.ReadAllText(path);
             if (text == "")
             {
@@ -545,94 +518,51 @@ namespace KodiMax
             }
         }
 
-        static void MostrarGolosinas()
+        static void EscribirJSon(string path, Clases.Ticket Obj)
         {
-            string JsonFile = File.ReadAllText(@"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Golsinas.json");
-            DataTable dt = (DataTable)JsonConvert.DeserializeObject(JsonFile, typeof(DataTable));
-
-            for (int j = 0; j < dt.Rows.Count; j++)
+            string json = JsonConvert.SerializeObject(Obj);
+            string text = File.ReadAllText(path);
+            if (text == "")
             {
-                Console.WriteLine("═══════════════════════════════════════════════════");
-                for (int i = 0; i < dt.Columns.Count; i++)
-                {
-                    Console.Write(dt.Columns[i].ColumnName + ":                   ");
-                    Console.WriteLine(dt.Rows[j].ItemArray[i]);
-                }
-                Console.WriteLine("═══════════════════════════════════════════════════");
+                File.WriteAllText(path, "[" + json + "]");
+                count++;
+            }
+            else
+            {
+                text = text.Remove(text.Length - 1);
+                string temp = text + "," + json + "]";
+                File.WriteAllText(path, text + "," + json + "]");
             }
         }
 
-        static void MostrarPeliculas()
-        {            
-            string JsonFile = File.ReadAllText(@"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Peliculas.json");
-            DataTable dt = (DataTable)JsonConvert.DeserializeObject(JsonFile, typeof(DataTable));
-            
-            for (int j = 0; j < dt.Rows.Count; j++)
+        static void EscribirJSon(string path, Clases.Peliculas Obj)
+        {
+            string json = JsonConvert.SerializeObject(Obj);
+            string text = File.ReadAllText(path);
+            if (text == "")
             {
-                Console.WriteLine("═══════════════════════════════════════════════════");
-                for (int i = 0; i < dt.Columns.Count; i++)
-                {
-                    Console.Write(dt.Columns[i].ColumnName + ":                   ");
-                    Console.WriteLine(dt.Rows[j].ItemArray[i]);
-                }
-                Console.WriteLine("═══════════════════════════════════════════════════");
+                File.WriteAllText(path, "[" + json + "]");
+                count++;
+            }
+            else
+            {
+                text = text.Remove(text.Length - 1);
+                string temp = text + "," + json + "]";
+                File.WriteAllText(path, text + "," + json + "]");
             }
         }
-
-        //public static void ReplaceJsonValue()
-        //{
-        //    string filepath = "../../json1.json";
-        //    string result = string.Empty;
-        //    using (StreamReader r = new StreamReader(filepath))
-        //    {
-        //        var json = r.ReadToEnd();
-        //        var jobj = JObject.Parse(json);
-        //        foreach (var item in jobj.Properties())
-        //        {
-        //            item.Value = item.Value.ToString().Replace("v1", "v2");
-        //        }
-        //        result = jobj.ToString();
-        //        Console.WriteLine(result);
-        //    }
-        //    File.WriteAllText(filepath, result);
-        //}
 
         public static void CargarJson()
         {
-            string JsonFilePeliculas = File.ReadAllText(@"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Peliculas.json");
-            string JsonFileGolosinas = File.ReadAllText(@"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Golsinas.json");
-            string JsonFileEmpleados = File.ReadAllText(@"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Empleados.json");
-            string JsonFileUsuarios = File.ReadAllText(@"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Usuarios.json");
-
-            Peliculas = JsonConvert.DeserializeObject<ArrayList>(JsonFilePeliculas);            
-            KodiAlimentos = JsonConvert.DeserializeObject<ArrayList>(JsonFileGolosinas);
-            EmpleadosReg = JsonConvert.DeserializeObject<ArrayList>(JsonFileEmpleados);
-            UsuariosReg = JsonConvert.DeserializeObject<ArrayList>(JsonFileUsuarios);
-
-            //len = Peliculas.Count;
-
-            //Clases.Peliculas prueba = new Clases.Peliculas();
-
-            //string tmp = Peliculas[0].ToString();
-
-            //prueba = JsonConvert.DeserializeObject<Clases.Peliculas>(tmp);
-
-            //Console.WriteLine(prueba.Nombre);
+            Peliculas = JsonConvert.DeserializeObject<ArrayList>(_pathPeliculas);            
+            KodiAlimentos = JsonConvert.DeserializeObject<ArrayList>(_pathGolosinas);
+            EmpleadosReg = JsonConvert.DeserializeObject<ArrayList>(_pathEmpleados);
+            UsuariosReg = JsonConvert.DeserializeObject<ArrayList>(_pathUsuarios);
         }
 
         static void Pruebas()
         {
-            //string JsonFile = File.ReadAllText(@"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Peliculas.json");
             
-            //ArrayList prb = JsonConvert.DeserializeObject<ArrayList>(JsonFile);
-
-            //Clases.Peliculas prueba = new Clases.Peliculas();
-
-            //string tmp = prb[0].ToString();
-
-            //prueba = JsonConvert.DeserializeObject<Clases.Peliculas>(tmp);
-
-            //Console.WriteLine(prueba.Nombre);
         }
     }
 }
