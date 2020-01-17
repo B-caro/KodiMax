@@ -25,11 +25,13 @@ namespace KodiMax
         private static readonly string _pathEmpleados = @"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Empleados.json";
         private static readonly string _pathUsuarios = @"C:\Users\Bucaro\Documents\GitHub\KodiMax\KodiMax\KodiMax\Json\Usuarios.json";
 
+        //private static readonly string _pathUsuarios = "Json\\Usuarios.json";
+
         static void Main(string[] args)
         {
-            CargarJson();
-            Menu_Principal();
-            //Pruebas();
+            //CargarJson();
+            //Menu_Principal();
+            Pruebas();
             Console.ReadKey();
         }
 
@@ -352,18 +354,19 @@ namespace KodiMax
         private static void MostrarJSon(string path)
         {
             string JsonFile = File.ReadAllText(path);
-            DataTable dt = (DataTable)JsonConvert.DeserializeObject(JsonFile, typeof(DataTable));
+            Console.WriteLine(JsonFile);
+            //DataTable dt = (DataTable)JsonConvert.DeserializeObject(JsonFile, typeof(DataTable));
 
-            for (int j = 0; j < dt.Rows.Count; j++)
-            {
-                Console.WriteLine("═══════════════════════════════════════════════════");
-                for (int i = 0; i < dt.Columns.Count; i++)
-                {
-                    Console.Write(dt.Columns[i].ColumnName + ":                   ");
-                    Console.WriteLine(dt.Rows[j].ItemArray[i]);
-                }
-                Console.WriteLine("═══════════════════════════════════════════════════");
-            }
+            //for (int j = 0; j < dt.Rows.Count; j++)
+            //{
+            //    Console.WriteLine("═══════════════════════════════════════════════════");
+            //    for (int i = 0; i < dt.Columns.Count; i++)
+            //    {
+            //        Console.Write(dt.Columns[i].ColumnName + ":                   ");
+            //        Console.WriteLine(dt.Rows[j].ItemArray[i]);
+            //    }
+            //    Console.WriteLine("═══════════════════════════════════════════════════");
+            //}
         }
 
         static void NuevoEmpleado()
@@ -578,7 +581,8 @@ namespace KodiMax
 
         static void Pruebas()
         {
-            
+            Clases.Salas Sl = new Clases.Salas("Frozen 2", 10, 5, "Normal");
+            Sl.Entradas();
         }
     }
 }

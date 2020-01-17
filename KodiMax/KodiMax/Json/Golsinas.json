@@ -1,1 +1,11 @@
-[{"Nombre":"1","Descripcion":"1","Precio":1.0,"Cantidad":1},{"Nombre":"2","Descripcion":"2","Precio":2.0,"Cantidad":2}]
+[{
+    "Nombre": "Nutella",
+    "Descripcion": "1",
+    "Precio": 1.5,
+    "Cantidad": 1
+}, {
+    "Nombre": "Coca Cola",
+    "Descripcion": "2",
+    "Precio": 2.0,
+    "Cantidad": 2
+}]

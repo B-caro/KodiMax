@@ -2,7 +2,7 @@
     "Id": 2,
     "Nombre": "Geminis",
     "Duracion": "200",
-    "Actores": ["Will Smith"],
+    "Actores": ["Will Smith", "Kike"],
     "Clasificacion": "C"
 }, {
     "Id": 3,

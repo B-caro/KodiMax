@@ -49,6 +49,7 @@
     <Compile Include="Clases\Empleados.cs" />
     <Compile Include="Clases\Golosinas.cs" />
     <Compile Include="Clases\Peliculas.cs" />
+    <Compile Include="Clases\Salas.cs" />
     <Compile Include="Clases\Ticket.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
